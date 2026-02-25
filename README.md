@@ -94,7 +94,7 @@ sudo chmod 750 /var/log/syscheck
 ```bash
 sudo visudo -f /etc/sudoers.d/syscheck
 # Add this line:
-# J-Acklen ALL=(ALL) NOPASSWD: /usr/sbin/smartctl
+# YOUR-USERNAME ALL=(ALL) NOPASSWD: /usr/sbin/smartctl
 ```
 
 ---
