@@ -1,0 +1,14 @@
+# Logs (don't commit generated log files)
+*.log
+logs/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
