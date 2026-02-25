@@ -72,13 +72,13 @@ sudo sensors-detect    # one-time CPU sensor setup
 **Quick install:**
 ```bash
 sudo curl -o /usr/local/bin/syscheck \
-  https://raw.githubusercontent.com/YOUR_USERNAME/syscheck/main/syscheck
+  https://raw.githubusercontent.com/J-Acklen/syscheck/main/syscheck
 sudo chmod +x /usr/local/bin/syscheck
 ```
 
 **Manual install:**
 ```bash
-git clone https://github.com/YOUR_USERNAME/syscheck.git
+git clone https://github.com/J-Acklen/syscheck.git
 sudo cp syscheck/syscheck /usr/local/bin/syscheck
 sudo chmod +x /usr/local/bin/syscheck
 ```
@@ -94,7 +94,7 @@ sudo chmod 750 /var/log/syscheck
 ```bash
 sudo visudo -f /etc/sudoers.d/syscheck
 # Add this line:
-# YOUR_USERNAME ALL=(ALL) NOPASSWD: /usr/sbin/smartctl
+# J-Acklen ALL=(ALL) NOPASSWD: /usr/sbin/smartctl
 ```
 
 ---
