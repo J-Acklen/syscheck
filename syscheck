@@ -2,7 +2,7 @@
 # ============================================================
 #  system_health_check.sh
 #  Post-update system health checker for Linux Mint
-#  Version: 1.6.4
+#  Version: 1.6.5
 #  Usage: syscheck [OPTIONS]
 #  --full    : run all extended checks (slower)
 #  --log     : save output to /var/log/syscheck/
@@ -10,7 +10,7 @@
 #  --version : display version and exit
 # ============================================================
 
-VERSION="1.6.4"
+VERSION="1.6.5"
 FULL_CHECK=false; SAVE_LOG=false
 
 show_help() {
@@ -237,6 +237,11 @@ header "7. Critical Journal Errors (this boot)"
 #   gkr-pam unlock/control  : Cinnamon+LightDM timing artifact — PAM fires before
 #                             gnome-keyring-daemon starts; daemon runs fine during
 #                             session, keyring is accessible, errors are cosmetic
+#   pam_unix cinnamon-screensaver conversation failed / could not identify password :
+#                             ecryptfs PAM module interference in screensaver unlock
+#                             path — "could not identify password" (not "wrong password")
+#                             confirms this is a PAM config artifact, not a real auth failure
+#   ext_io_disconnected Hands-Free Voice gateway : Bluetooth headset ungraceful disconnect
 # ── Soft filters: counted separately but not flagged as failures ──
 #   PCIe Bus Error ACSViol/UnsupReq on [1022:14db] : AMD Ryzen PCIe root port fires
 #   during dGPU power state transitions on ASUS ROG hybrid GPU systems. Null TLP
@@ -253,6 +258,8 @@ HARD_FILTERED=$(echo "$RAW_ERRS" \
   | grep -v "pam_ecryptfs" \
   | grep -v "profiles inconsistent" \
   | grep -v "gkr-pam:.*unlock.*keyring\|gkr-pam:.*daemon control file" \
+  | grep -v "pam_unix.*cinnamon-screensaver.*conversation failed\|pam_unix.*cinnamon-screensaver.*could not identify password" \
+  | grep -v "ext_io_disconnected.*Hands-Free Voice gateway" \
   | grep -v "^.\{,80\}kernel:[[:space:]]*$")  # blank kernel log lines
 
 PCIE_ACS=$(echo "$HARD_FILTERED" | grep -c "PCIe Bus Error\|ACSViol\|UnsupReq\|TLP Header\|error status/mask" || true)
