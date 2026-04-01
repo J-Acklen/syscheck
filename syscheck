@@ -2,7 +2,7 @@
 # ============================================================
 #  system_health_check.sh
 #  Post-update system health checker for Linux Mint
-#  Version: 1.6.8
+#  Version: 1.6.9
 #  Usage: syscheck [OPTIONS]
 #  --full    : run all extended checks (slower)
 #  --log     : save output to /var/log/syscheck/
@@ -10,7 +10,7 @@
 #  --version : display version and exit
 # ============================================================
 
-VERSION="1.6.8"
+VERSION="1.6.9"
 FULL_CHECK=false; SAVE_LOG=false
 
 show_help() {
@@ -196,8 +196,14 @@ else
 fi
 
 PENDING=$(apt list --upgradable 2>/dev/null | grep -c -v "Listing...")
-if [ "$PENDING" -gt 0 ]; then
-  warn "$PENDING package(s) still upgradable — run: sudo apt upgrade"
+PHASED=$(apt list --upgradable 2>/dev/null | grep -c "phased" || true)
+REAL_PENDING=$(( PENDING - PHASED ))
+if [ "$REAL_PENDING" -gt 0 ]; then
+  warn "$REAL_PENDING package(s) still upgradable — run: sudo apt upgrade"
+  [ "$PHASED" -gt 0 ] && info "$PHASED additional package(s) held back due to Ubuntu phased rollout"
+elif [ "$PHASED" -gt 0 ]; then
+  ok "System is fully up to date"
+  info "$PHASED package(s) held back due to Ubuntu phased rollout — will install automatically when released"
 else
   ok "System is fully up to date"
 fi
