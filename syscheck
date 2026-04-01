@@ -2,7 +2,7 @@
 # ============================================================
 #  system_health_check.sh
 #  Post-update system health checker for Linux Mint
-#  Version: 1.6.6
+#  Version: 1.6.7
 #  Usage: syscheck [OPTIONS]
 #  --full    : run all extended checks (slower)
 #  --log     : save output to /var/log/syscheck/
@@ -10,7 +10,7 @@
 #  --version : display version and exit
 # ============================================================
 
-VERSION="1.6.6"
+VERSION="1.6.7"
 FULL_CHECK=false; SAVE_LOG=false
 
 show_help() {
@@ -235,6 +235,8 @@ header "7. Critical Journal Errors (this boot)"
 #   cs35l41 Wake failed re-enter hibernate : Cirrus Logic speaker amp on ASUS ROG
 #                             occasionally wakes incorrectly from prior suspend; self-
 #                             recovers, audio works fine — known ROG + Linux quirk
+#   ucsi_acpi PPM init failed : USB-C power policy manager timing quirk on ASUS ROG
+#                             hybrid GPU systems; USB-C still functions correctly
 #   hidpp_root_get_protocol : Logitech HID++ version probe on device connect
 #   sap_server / sap-server : Bluetooth SAP profile not loaded, harmless on laptops
 #   pam_ecryptfs seteuid    : screensaver unlock ecryptfs probe, benign
@@ -260,6 +262,7 @@ HARD_FILTERED=$(echo "$RAW_ERRS" \
   | grep -v "asus_wmi.*retcode\|/bin/false.*asus" \
   | grep -v "asus.*Asus input not registered\|asus.*probe with driver asus failed" \
   | grep -v "cs35l41.*Wake failed.*re-enter hibernate" \
+  | grep -v "ucsi_acpi.*PPM init failed" \
   | grep -v "hidpp_root_get_protocol_version" \
   | grep -v "sap_server_register\|sap-server" \
   | grep -v "pam_ecryptfs" \
