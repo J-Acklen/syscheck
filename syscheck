@@ -2,7 +2,7 @@
 # ============================================================
 #  system_health_check.sh
 #  Post-update system health checker for Linux Mint
-#  Version: 1.6.7
+#  Version: 1.6.8
 #  Usage: syscheck [OPTIONS]
 #  --full    : run all extended checks (slower)
 #  --log     : save output to /var/log/syscheck/
@@ -10,7 +10,7 @@
 #  --version : display version and exit
 # ============================================================
 
-VERSION="1.6.7"
+VERSION="1.6.8"
 FULL_CHECK=false; SAVE_LOG=false
 
 show_help() {
@@ -276,6 +276,7 @@ PCIE_ACS=$(echo "$HARD_FILTERED" | grep -c "PCIe Bus Error\|ACSViol\|UnsupReq\|T
 
 REAL_ERRS=$(echo "$HARD_FILTERED" \
   | grep -v "PCIe Bus Error\|ACSViol\|UnsupReq\|TLP Header\|error status/mask" \
+  | grep -v "^[[:space:]]" \
   | grep -c "." || true)
 
 RAW_COUNT=$(echo "$RAW_ERRS" | grep -c "." || true)
